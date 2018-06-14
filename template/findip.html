@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>FindIP</title>
+    <link rel="icon" href="{{static_url('css/img/favicon.ico')}}" />
+	<link rel="stylesheet" href="{{static_url('css/css3.css')}}" type="text/css" />
+    <script src="{{static_url('js/echarts.min.js')}}"></script>
+    <script src="{{static_url('js/world.js')}}"></script>
+</head>
+
+<body>
+
+    <form action="/" method="POST">
+
+        <input type="text" name="q" value="">
+        <input type="submit" value="搜索">
+    </form>
+
+    <big>您查询的IP:<nobr style="font-family:verdana;color:red">{{ip}}</nobr> | 位于:<nobr style="font-family:verdana;color:red">{{fip}}</nobr> | 坐标:{{fx}},{{fy}}</big>
+
+
+	<div id="map-wrap" style="height: 500px;">
+		<!-- MAP -->
+    <script type="text/javascript">
+
+        var na = "{{ ip }}";
+        var va1 = "{{ fx }}";
+        var va2 = "{{ fy }}";
+        var myData = [
+            {
+                "name":na,
+                "value":[va1,va2]
+            }
+
+        ];
+
+        // 初始化echarts示例mapChart
+        var mapChart = echarts.init(document.getElementById('map-wrap'));
+        // mapChart的配置
+        var option = {
+            	geo: {
+            	    //地图模板js
+                    map: 'world',
+                    roam: true,
+
+                    // 定义样式
+                    itemStyle: {
+                        // 普通状态下的样式
+                        normal: {
+                            //地图区域颜色
+                            areaColor: '#323c48',
+                            //边框颜色
+                            borderColor: '#111'
+                        },
+
+                        // 高亮状态下的样式
+                        emphasis: {
+                            areaColor: '#8B0000'
+                        }
+                    }
+
+
+                },
+
+
+
+                //背景色
+                backgroundColor: '#404a59',
+
+                //圆点
+                series: [
+		            {
+			        name: '坐标', // series名称
+                    // series图表类型
+                    //扩散图
+                    type: 'effectScatter',
+                    //圆点图
+			        //type: 'scatter',
+			        coordinateSystem: 'geo', // series坐标系类型
+                    symbolSize: 15, //圆点的大小
+
+                    showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                    },
+                    //鼠标联动效果
+                    hoverAnimation: true,
+                    //模板变量有 {a}、{b}、{c}，分别表示系列名，数据名，数据值。
+                    label: {
+                        normal: {
+                            formatter:'{b}',
+                            position: 'right',
+                            show: true
+                        }
+                    },
+
+                    //圆点颜色
+                    itemStyle: {
+                        normal: {
+                            color: "#f4e925"
+                            //shadowBlur: 10,
+                            //shadowColor: '#333'
+                            //lineStyle: {
+                            //    color: "#333"
+                            //}
+                        }
+                    },
+
+                    data: myData // series数据内容,myData为上面定义的数据
+
+		            }
+	            ]
+
+        };
+
+
+        mapChart.setOption(option);
+
+    </script>
+
+	</div>
+
+</body>
+</html>
