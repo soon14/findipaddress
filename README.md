@@ -1,4 +1,5 @@
-Run Server.
+Run Server:
+
 sudo python server.py 
 
 Open URL : 127.0.0.1:8000
